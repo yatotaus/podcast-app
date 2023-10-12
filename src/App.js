@@ -1,12 +1,14 @@
-// Import components from react
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //Import components
+import Content from "./Content";
 import SearchContainer from "./components/Search-section/SearchContainer";
 
 // Import CSS
 import "./App.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import PodcastPreview from "./components/PodcastPreview/PodcastPreview";
 
 const THEME = createTheme({
   typography: {
@@ -49,36 +51,33 @@ function App() {
     setEpisodes(data.results); // Save the data in 'podcast'
   };
 
-  // Function to handle the search submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // If there is no value within the search term input...
-    if (searchTerm === "") {
-      // then alert the user to enter a search term before searching...
-      alert(`Please enter a term before searching`);
-    } else {
-      // , else run 'fetchOutput()' to make the API call
-      fetchOutput();
-    }
-  };
-
-  // Function to handle the search term change
-  const handleTermChange = (e) => {
-    setSearchTerm(e.target.value); // Get the value from the input and save it in 'searchTerm'
-  };
-
   return (
     <ThemeProvider theme={THEME}>
       <div className="App">
-        <input
-          type="text"
-          placeholder="Enter search term"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        ></input>
-        <button className="btn" onClick={() => fetchOutput()}>
-          Search
-        </button>
-        <SearchContainer {...{ podcastUploaded: { podcasts, listEpisodes } }} />
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Content {...{ setSearchTerm, fetchOutput }}>
+                  <SearchContainer
+                    {...{
+                      podcastUploaded: { podcasts, listEpisodes },
+                    }}
+                  />
+                </Content>
+              }
+            />
+            <Route
+              path="/preview"
+              element={
+                <Content>
+                  <PodcastPreview {...{ listEpisodes }} />
+                </Content>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
       </div>
     </ThemeProvider>
   );

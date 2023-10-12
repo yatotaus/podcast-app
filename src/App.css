@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Quicksand&display=swap");
 
-/* App styling */
+/* App styling
+background-color: #14151f;
+ */
 .App {
   text-align: center;
   font-size: 17px;
-  background-color: #14151f;
   min-height: 90vh;
   padding: 10px 180px 10px;
   font-family: "Quicksand";
