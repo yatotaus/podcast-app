@@ -1,65 +1,86 @@
 // Import components from react
 import React, { useState } from "react";
 
+//Import components
+import SearchContainer from "./components/Search-section/SearchContainer";
+
 // Import CSS
 import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const THEME = createTheme({
+  typography: {
+    allVariants: {
+      fontFamily: "Quicksand",
+    },
+  },
+  TableCell: {
+    root: {
+      color: "white",
+      opacity: 0.6,
+    },
+  },
+});
 
 function App() {
-  const [podcast, setPodcast] = useState(); // useState to save the list of podcasts
+  const [podcasts, setPodcasts] = useState(); // useState to save the list of podcasts
+  const [listEpisodes, setEpisodes] = useState();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Function to fetch the list of podcasts
-  const fetchFavourites = async () => {
+  const fetchOutput = async () => {
     const result = await fetch(
-      `https://itunes.apple.com/search?term=${searchTerm}&entity=podcast`
+      //list of podcast
+      `https://itunes.apple.com/search?term=${searchTerm}&media=podcast&limit=25`
     ); // Make the API call
     const data = await result.json(); // Change the result into json format
-    setPodcast(data.results); // Save the data in 'podcast'
+    setPodcasts(data.results); // Save the data in 'podcast'
+
+    fetchEpisodes();
+  };
+
+  const fetchEpisodes = async () => {
+    const result = await fetch(
+      //list of episodes
+      `https://itunes.apple.com/search?term=${searchTerm}&media=podcast&entity=podcastEpisode&limit=25`
+    ); // Make the API call
+    const data = await result.json(); // Change the result into json format
+
+    setEpisodes(data.results); // Save the data in 'podcast'
+  };
+
+  // Function to handle the search submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // If there is no value within the search term input...
+    if (searchTerm === "") {
+      // then alert the user to enter a search term before searching...
+      alert(`Please enter a term before searching`);
+    } else {
+      // , else run 'fetchOutput()' to make the API call
+      fetchOutput();
+    }
+  };
+
+  // Function to handle the search term change
+  const handleTermChange = (e) => {
+    setSearchTerm(e.target.value); // Get the value from the input and save it in 'searchTerm'
   };
 
   return (
-    <div className="App">
-      <input
-        type="text"
-        placeholder="Enter search term"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      ></input>
-      <button className="btn" onClick={() => fetchFavourites()}>
-        Search
-      </button>
-      <hr></hr>
-
-      {podcast?.length && (
-        <table>
-          <thead>
-            <tr>
-              <th>Artwork</th>
-              <th>Host name</th>
-              <th>Title</th>
-            </tr>
-          </thead>
-          <tbody>
-            {podcast?.map((episode) => {
-              const list = (
-                <>
-                  <tr>
-                    <td>
-                      <img
-                        src={episode.artworkUrl60}
-                        alt={episode.artistName}
-                      />
-                    </td>
-                    <td key={episode.artistId}>{episode.artistName}</td>
-                    <td>{episode.trackCensoredName}</td>
-                  </tr>
-                </>
-              );
-              return list;
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
+    <ThemeProvider theme={THEME}>
+      <div className="App">
+        <input
+          type="text"
+          placeholder="Enter search term"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        ></input>
+        <button className="btn" onClick={() => fetchOutput()}>
+          Search
+        </button>
+        <SearchContainer {...{ podcastUploaded: { podcasts, listEpisodes } }} />
+      </div>
+    </ThemeProvider>
   );
 }
 
