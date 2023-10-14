@@ -19,20 +19,23 @@ const SearchContainer = ({ podcastUploaded }) => {
     <div className="table">
       {podcastList?.podcasts?.length ? (
         <PodcastList>
-          {podcastList?.podcasts?.map((item, id) => (
-            <Link
-              to={"/preview"}
-              state={podcastList?.listEpisodes}
-              style={{ display: "contents" }}
-            >
-              <Episode
-                {...{
-                  episode: item,
-                  id,
-                }}
-              />
-            </Link>
-          ))}
+          {podcastList?.podcasts?.map((item, id) => {
+            //fetchEpisodes()
+            return (
+              <Link
+                to={"/preview"}
+                state={podcastList?.listEpisodes}
+                style={{ display: "contents" }}
+              >
+                <Episode
+                  {...{
+                    episode: item,
+                    id,
+                  }}
+                />
+              </Link>
+            );
+          })}
         </PodcastList>
       ) : null}
     </div>

@@ -1,15 +1,21 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+
+import { getDate, getTime } from "../../utils";
 
 // Import material UI components
 import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const Episode = ({ episode, id }) => {
+  const location = useLocation();
+  const pathname = "/preview";
+
   let description = episode.description;
   description ||= "Escucha este podcast que dejara reflexionando";
 
-  let name = episode.artistName;
-  name ||= episode.collectionName;
+  let name = episode.artistName ?? episode.collectionName;
+  const date = getDate(episode?.releaseDate);
 
   return (
     <TableRow
@@ -49,7 +55,10 @@ const Episode = ({ episode, id }) => {
           {description}
         </Typography>
       </TableCell>
-      <TableCell>{new Date(episode?.releaseDate).toDateString()}</TableCell>
+      <TableCell>{date}</TableCell>
+      {location.pathname === pathname && (
+        <TableCell>{getTime(episode?.releaseDate)}</TableCell>
+      )}
     </TableRow>
   );
 };
