@@ -7,12 +7,12 @@ import {
   PauseCircleFilledRounded,
   SearchRounded,
   ExpandMoreRounded,
-  ExpandLessRounded,
 } from "@mui/icons-material";
 
 //Import components
 import Episode from "../Episode/Episode";
 import PodcastList from "../PodcastList/PodcastList";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 const PodcastPreview = () => {
   const location = useLocation();
@@ -65,6 +65,7 @@ const PodcastPreview = () => {
           />
         ))}
       </PodcastList>
+      <AudioPlayer {...{ episode: podcastEpisodes[0] }} />
     </div>
   );
 };

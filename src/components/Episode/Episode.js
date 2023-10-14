@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
 import { getDate, getTime } from "../../utils";
 
 // Import material UI components
-import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Box, Button, TableCell, TableRow, Typography } from "@mui/material";
+import { PauseCircleFilledRounded, PlayArrow } from "@mui/icons-material";
 
 const Episode = ({ episode, id }) => {
+  const [audio, setAudio] = useState(new Audio(episode.previewUrl));
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const location = useLocation();
   const pathname = "/preview";
 
@@ -16,6 +18,14 @@ const Episode = ({ episode, id }) => {
 
   let name = episode.artistName ?? episode.collectionName;
   const date = getDate(episode?.releaseDate);
+
+  useEffect(() => {
+    if (isPlaying) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
 
   return (
     <TableRow
@@ -26,7 +36,13 @@ const Episode = ({ episode, id }) => {
       }}
     >
       <TableCell component="th" scope="row" style={{ color: "white" }}>
-        <PlayArrowIcon />
+        <Button onClick={() => setIsPlaying((prev) => !prev)}>
+          {isPlaying ? (
+            <PauseCircleFilledRounded sx={{ color: "#5C67DE" }} />
+          ) : (
+            <PlayArrow />
+          )}
+        </Button>
       </TableCell>
       <TableCell>
         <Box sx={{ display: "flex" }}>
@@ -47,10 +63,10 @@ const Episode = ({ episode, id }) => {
       </TableCell>
       <TableCell>
         <Typography
+          height={25}
           overflow="hidden"
           textoverflow="ellipsis"
           width="15rem"
-          height={25}
         >
           {description}
         </Typography>

@@ -20,3 +20,7 @@
 .header-container .header {
   font-size: 28px;
 }
+
+.searchBar {
+  width: "100px";
+}

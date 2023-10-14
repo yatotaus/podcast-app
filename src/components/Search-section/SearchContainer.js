@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 //Import components
 import PodcastList from "../PodcastList/PodcastList";
@@ -20,7 +21,6 @@ const SearchContainer = ({ podcastUploaded }) => {
       {podcastList?.podcasts?.length ? (
         <PodcastList>
           {podcastList?.podcasts?.map((item, id) => {
-            //fetchEpisodes()
             return (
               <Link
                 to={"/preview"}
@@ -43,3 +43,7 @@ const SearchContainer = ({ podcastUploaded }) => {
 };
 
 export default SearchContainer;
+
+SearchContainer.propTypes = {
+  podcastUploaded: PropTypes.object,
+};

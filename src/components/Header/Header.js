@@ -1,7 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 // Import material UI components
-import { Button, Box } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import ArrowBackIosNewTwoToneIcon from "@mui/icons-material/ArrowBackIosNewTwoTone";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -15,21 +23,44 @@ const Header = ({ setSearchTerm, fetchOutput }) => {
   const pathname = "/preview";
 
   return (
-    <Box>
+    <Box sx={{ display: "flex" }}>
       {location.pathname === pathname && (
         <Button
+          sx={{
+            background: "#1A1A1A",
+            borderRadius: "15px",
+            height: "55px",
+            width: "50px",
+          }}
           onClick={() => {
             navigate(-1);
           }}
         >
-          <ArrowBackIosNewTwoToneIcon />
+          <ArrowBackIosNewTwoToneIcon sx={{ color: "#FFFFFF" }} />
         </Button>
       )}
-      <input
-        type="text"
-        placeholder="Enter search term"
+
+      <TextField
+        sx={{
+          background: "#1A1A1A",
+          borderRadius: "15px",
+          input: { color: "#FFFFFF", opacity: "0.4" },
+          marginLeft: "10px",
+          width: "60em",
+        }}
+        placeholder="podcast"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment>
+              <IconButton>
+                <SearchRoundedIcon sx={{ color: "#FFFFFF" }} />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
         onChange={(e) => setSearchTerm(e.target.value)}
-      ></input>
+      />
+
       <Button className="btn" onClick={() => fetchOutput()}>
         Search
       </Button>
@@ -38,3 +69,8 @@ const Header = ({ setSearchTerm, fetchOutput }) => {
 };
 
 export default Header;
+
+Header.propTypes = {
+  setSearchTerm: PropTypes.func,
+  fetchOutput: PropTypes.func,
+};
