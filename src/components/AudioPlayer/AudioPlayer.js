@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 // Import material UI components
-import { Button, Box, Typography, Stack, Slider } from "@mui/material";
-
-// Import CSS
-import "./audioPlayer.css";
+import { Box, Button, Stack, Slider, Typography } from "@mui/material";
 
 import {
   FirstPageRounded,
   LastPageRounded,
-  RefreshRounded,
   PauseCircleFilledRounded,
   PlayArrow,
+  RefreshRounded,
   ShuffleRounded,
   VolumeUp,
 } from "@mui/icons-material";
 
+// Import CSS
+import "./audioPlayer.css";
+
 const AudioPlayer = ({ episode }) => {
-  let name = episode.artistName ?? episode.collectionName;
+  let name = episode?.artistName ?? episode?.collectionName;
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -80,21 +81,21 @@ const AudioPlayer = ({ episode }) => {
     <Box
       className="audioPlayer"
       sx={{
+        background: "#1A1A1A",
+        bottom: 0,
         display: "flex",
         flexDirection: "row",
+        height: "110px",
         justifyContent: "space-between",
         marginTop: "auto",
         position: "fixed",
-        bottom: 0,
         width: "100%",
-        background: "#1A1A1A",
-        height: "110px",
       }}
     >
       <Box sx={{ display: "flex" }}>
         <img
           src={episode?.artworkUrl60}
-          alt={episode?.artistName}
+          alt={name}
           style={{ borderRadius: "inherit" }}
         />
         <Box
@@ -102,8 +103,8 @@ const AudioPlayer = ({ episode }) => {
             display: "flex",
             flexDirection: "column",
             marginLeft: "15px",
-            width: "-webkit-fill-available",
             marginTop: "30px",
+            width: "-webkit-fill-available",
           }}
         >
           <Typography component="div" color="white">
@@ -131,9 +132,9 @@ const AudioPlayer = ({ episode }) => {
           <ShuffleRounded sx={{ color: "#FFFFFF" }} />
         </Button>
         <audio
-          ref={audioPlayer}
-          src={episode.previewUrl}
           preload="metadata"
+          ref={audioPlayer}
+          src={episode?.previewUrl}
         ></audio>
         <Button>
           <FirstPageRounded sx={{ color: "#FFFFFF" }} />
@@ -181,10 +182,10 @@ const AudioPlayer = ({ episode }) => {
           spacing={2}
           direction="row"
           sx={{
+            alignItems: "center",
+            marginLeft: "10px",
             mb: 1,
             width: "150px",
-            marginLeft: "10px",
-            alignItems: "center",
           }}
           alignItems="center"
         >
@@ -197,3 +198,7 @@ const AudioPlayer = ({ episode }) => {
 };
 
 export default AudioPlayer;
+
+AudioPlayer.propTypes = {
+  episode: PropTypes.object,
+};

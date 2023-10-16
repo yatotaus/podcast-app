@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import { getDate, getTime } from "../../utils";
 
 // Import material UI components
 import { Box, Button, TableCell, TableRow, Typography } from "@mui/material";
 import { PauseCircleFilledRounded, PlayArrow } from "@mui/icons-material";
+import { withStyles } from "@mui/styles";
+
+const StyledTableCell = withStyles({
+  root: {
+    color: "#FFFFFF",
+    opacity: "0.3",
+    borderBottomColor: "rgb(211,211,211, 0.1)",
+  },
+})(TableCell);
 
 const Episode = ({ episode, id }) => {
   const [audio, setAudio] = useState(new Audio(episode.previewUrl));
@@ -31,20 +42,23 @@ const Episode = ({ episode, id }) => {
     <TableRow
       key={id}
       sx={{
-        "&:last-child td, &:last-child th": { border: 0 },
-        borderBottom: "1px solid #FFFFFF",
+        borderBottomColor: "rgb(211,211,211, 0.1)",
       }}
     >
-      <TableCell component="th" scope="row" style={{ color: "white" }}>
+      <TableCell
+        component="th"
+        scope="row"
+        sx={{ color: "white", borderBottomColor: "rgb(211,211,211, 0.1)" }}
+      >
         <Button onClick={() => setIsPlaying((prev) => !prev)}>
           {isPlaying ? (
             <PauseCircleFilledRounded sx={{ color: "#5C67DE" }} />
           ) : (
-            <PlayArrow />
+            <PlayArrow sx={{ color: "white" }} />
           )}
         </Button>
       </TableCell>
-      <TableCell>
+      <TableCell sx={{ borderBottomColor: "rgb(211,211,211, 0.1)" }}>
         <Box sx={{ display: "flex" }}>
           <img src={episode?.artworkUrl60} alt={episode?.artistName} />
           <Box
@@ -54,14 +68,19 @@ const Episode = ({ episode, id }) => {
               marginLeft: "15px",
             }}
           >
-            <Typography component="div">{episode?.trackName}</Typography>
-            <Typography align="left" component="div" variant="subtitle1">
+            <Typography sx={{ color: "#FFFFFF" }}>
+              {episode?.trackName}
+            </Typography>
+            <Typography
+              sx={{ align: "left", color: "#FFFFFF", opacity: "0.3" }}
+              variant="subtitle2"
+            >
               {name}
             </Typography>
           </Box>
         </Box>
       </TableCell>
-      <TableCell>
+      <StyledTableCell>
         <Typography
           height={25}
           overflow="hidden"
@@ -70,13 +89,18 @@ const Episode = ({ episode, id }) => {
         >
           {description}
         </Typography>
-      </TableCell>
-      <TableCell>{date}</TableCell>
+      </StyledTableCell>
+      <StyledTableCell>{date}</StyledTableCell>
       {location.pathname === pathname && (
-        <TableCell>{getTime(episode?.releaseDate)}</TableCell>
+        <StyledTableCell>{getTime(episode?.releaseDate)}</StyledTableCell>
       )}
     </TableRow>
   );
 };
 
 export default Episode;
+
+Episode.propTypes = {
+  episode: PropTypes.object,
+  id: PropTypes.number,
+};

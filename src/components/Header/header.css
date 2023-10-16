@@ -1,19 +1,19 @@
 /* Style the header container */
 .header-container {
+  align-items: center;
   color: white;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 15px 90px;
 }
 
 /* Style the header buttons */
 .header-container .btn,
 .header-container .btn a {
-  width: 120px;
+  color: #fff;
   font-size: 17px;
   text-decoration: none;
-  color: #fff;
+  width: 120px;
 }
 
 /* Style the heading within the header */

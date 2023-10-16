@@ -16,11 +16,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 // Import CSS
 import "./header.css";
 
-const Header = ({ setSearchTerm, fetchOutput }) => {
+const Header = ({ fetchOutput, setSearchTerm }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const pathname = "/preview";
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      fetchOutput();
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -59,11 +65,8 @@ const Header = ({ setSearchTerm, fetchOutput }) => {
           ),
         }}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyUp={(e) => handleKeyPress(e)}
       />
-
-      <Button className="btn" onClick={() => fetchOutput()}>
-        Search
-      </Button>
     </Box>
   );
 };
@@ -71,6 +74,6 @@ const Header = ({ setSearchTerm, fetchOutput }) => {
 export default Header;
 
 Header.propTypes = {
-  setSearchTerm: PropTypes.func,
   fetchOutput: PropTypes.func,
+  setSearchTerm: PropTypes.func,
 };

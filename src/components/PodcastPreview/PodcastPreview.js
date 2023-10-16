@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // Import material UI components
 import { Box, Typography } from "@mui/material";
 import {
+  ExpandMoreRounded,
   PauseCircleFilledRounded,
   SearchRounded,
-  ExpandMoreRounded,
 } from "@mui/icons-material";
 
 //Import components
@@ -26,8 +26,9 @@ const PodcastPreview = () => {
         sx={{
           backgroundImage: `url(${photo})`,
           backgroundRepeat: "no-repeat",
-          height: 300,
           backgroundSize: "cover",
+          borderRadius: "15px",
+          height: 300,
         }}
       />
       <Box
@@ -38,21 +39,21 @@ const PodcastPreview = () => {
         <PauseCircleFilledRounded
           sx={{ color: "#5C67DE", height: "70px", width: "70px" }}
         />
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#FFFFFF" }}>
           {podcastEpisodes[0].collectionName}
         </Typography>
 
         <Box
-          marginBottom="10px"
+          alignItems={"center"}
           display={"flex"}
           justifyContent={"space-around"}
-          alignItems={"center"}
+          marginBottom="10px"
         >
-          <SearchRounded />
-          <Typography variant="text" sx={{ fontWeight: "bold" }}>
+          <SearchRounded sx={{ color: "#FFFFFF", marginRight: "20px" }} />
+          <Typography variant="text" sx={{ color: "#FFFFFF" }}>
             Order by
           </Typography>
-          <ExpandMoreRounded />
+          <ExpandMoreRounded sx={{ color: "#FFFFFF" }} />
         </Box>
       </Box>
       <PodcastList>
@@ -65,7 +66,11 @@ const PodcastPreview = () => {
           />
         ))}
       </PodcastList>
-      <AudioPlayer {...{ episode: podcastEpisodes[0] }} />
+      <AudioPlayer
+        {...{
+          episode: podcastEpisodes[0],
+        }}
+      />
     </div>
   );
 };

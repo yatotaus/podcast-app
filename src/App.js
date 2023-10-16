@@ -17,10 +17,8 @@ const THEME = createTheme({
     },
   },
   TableCell: {
-    root: {
-      color: "white",
-      opacity: 0.6,
-    },
+    color: "#FFFFFF",
+    opacity: 0.4,
   },
 });
 
@@ -71,7 +69,7 @@ function App() {
             <Route
               path="/preview"
               element={
-                <Content>
+                <Content {...{ setSearchTerm, fetchOutput }}>
                   <PodcastPreview {...{ listEpisodes }} />
                 </Content>
               }
